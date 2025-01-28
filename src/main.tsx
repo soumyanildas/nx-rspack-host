@@ -1,13 +1,15 @@
-import { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom/client';
-import App from './app/app';
-import './styles.scss';
+import { init } from '@module-federation/runtime';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+init({
+  name: 'mf_host',
+  remotes: [
+    {
+      name: 'mf_remote',
+      // Adding version to invalidate cache
+      entry: `http://localhost:4202/remoteEntry.js?v=${+Date.now()}`,
+    },
+    // Other remote entries
+  ]
+});
+
+import('./bootstrap');
